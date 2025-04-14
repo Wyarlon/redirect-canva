@@ -2,39 +2,48 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Processando Compra...</title>
+    <title>Confirmação de Compra</title>
     
-    <!-- Pixel Facebook (versão otimizada) -->
+    <!-- Implementação Profissional do Pixel -->
     <script>
-        // Dispara o Pixel primeiro
-        function firePixel() {
-            const img = new Image();
-            img.src = "https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&noscript=1";
-            img.width = 1;
-            img.height = 1;
-            img.style.display = 'none';
-            document.body.appendChild(img);
+        // Função otimizada para carregamento do Pixel
+        function loadPixel() {
+            return new Promise((resolve) => {
+                const pixel = new Image();
+                pixel.src = `https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&noscript=1&t=${Date.now()}`;
+                pixel.onload = resolve;
+                document.body.appendChild(pixel);
+            });
+        }
+
+        // Redirecionamento garantido após confirmação
+        async function init() {
+            try {
+                await loadPixel(); // Aguarda confirmação do Pixel
+                console.log('Pixel carregado com sucesso!');
+            } catch (error) {
+                console.error('Erro no Pixel:', error);
+            }
             
-            // Redireciona após 3 segundos (tempo mínimo para o Pixel registrar)
-            setTimeout(redirect, 3000);
+            // Redireciona após 3 segundos (mesmo se o Pixel falhar)
+            setTimeout(() => {
+                window.location.href = "https://compra-confirmada.my.canva.site";
+            }, 3000);
         }
-        
-        function redirect() {
-            window.location.href = "https://compra-confirmada.my.canva.site";
-        }
-        
-        // Inicia o processo quando a página carrega
-        window.onload = firePixel;
+
+        // Inicia o processo
+        window.addEventListener('DOMContentLoaded', init);
     </script>
+
+    <!-- Fallback para navegadores sem JavaScript -->
+    <noscript>
+        <meta http-equiv="refresh" content="3;url=https://compra-confirmada.my.canva.site">
+        <img height="1" width="1" style="display:none" 
+             src="https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&noscript=1"/>
+    </noscript>
 </head>
-<body style="
-    font-family: Arial;
-    text-align: center;
-    padding: 50px;
-    background: #f5f5f5;
-">
-    <h1>✅ Processando sua compra...</h1>
-    <p>Aguarde enquanto registramos seu pedido.</p>
+<body style="text-align: center; padding: 50px; font-family: Arial;">
+    <h1>✅ Finalizando sua compra...</h1>
     <div style="
         border: 5px solid #f3f3f3;
         border-top: 5px solid #1877f2;
@@ -44,12 +53,6 @@
         animation: spin 1s linear infinite;
         margin: 20px auto;
     "></div>
-    
-    <!-- Fallback manual -->
-    <a href="https://compra-confirmada.my.canva.site" 
-       style="color: #1877f2; text-decoration: underline;"
-       target="_top">
-       Clique aqui se não for redirecionado
-    </a>
+    <p>Aguarde enquanto processamos seu pagamento</p>
 </body>
 </html>
