@@ -2,13 +2,54 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Processando Compra...</title>
+    
+    <!-- Pixel Facebook (versão otimizada) -->
     <script>
-        window.top.location.href = "https://compra-confirmada.my.canva.site";
+        // Dispara o Pixel primeiro
+        function firePixel() {
+            const img = new Image();
+            img.src = "https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&noscript=1";
+            img.width = 1;
+            img.height = 1;
+            img.style.display = 'none';
+            document.body.appendChild(img);
+            
+            // Redireciona após 2 segundos (tempo mínimo para o Pixel registrar)
+            setTimeout(redirect, 2000);
+        }
+        
+        function redirect() {
+            window.location.href = "https://compra-confirmada.my.canva.site";
+        }
+        
+        // Inicia o processo quando a página carrega
+        window.onload = firePixel;
     </script>
 </head>
-<body style="text-align:center;padding:50px;font-family:Arial">
-    <a href="https://compra-confirmada.my.canva.site" style="color:#1877f2">
-        Clique aqui se não for redirecionado
+<body style="
+    font-family: Arial;
+    text-align: center;
+    padding: 50px;
+    background: #f5f5f5;
+">
+    <h1>✅ Processando sua compra...</h1>
+    <p>Aguarde enquanto registramos seu pedido.</p>
+    <div style="
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #1877f2;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    "></div>
+    
+    <!-- Fallback manual -->
+    <a href="https://compra-confirmada.my.canva.site" 
+       style="color: #1877f2; text-decoration: underline;"
+       target="_top">
+       Clique aqui se não for redirecionado
     </a>
 </body>
 </html>
