@@ -48,10 +48,10 @@
 
     <!-- Implementação à prova de falhas -->
     <script>
-        // 1. Carrega o Pixel
+        // 1. Carrega o Pixel com parâmetro currency corrigido
         function loadPixel() {
             const pixel = new Image();
-            pixel.src = `https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&noscript=1&t=${Date.now()}`;
+            pixel.src = `https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&cd[currency]=BRL&noscript=1&t=${Date.now()}`;
             pixel.width = 1;
             pixel.height = 1;
             pixel.style.display = 'none';
@@ -61,20 +61,27 @@
 
         // 2. Redirecionamento otimizado para mobile
         function redirect() {
-            // Método compatível com todos os dispositivos
-            window.location.href = "https://compra-confirmada.my.canva.site";
+            // Método principal (compatível com iOS/Android)
+            if(window.top !== window.self) {
+                window.top.location.href = "https://compra-confirmada.my.canva.site";
+            } else {
+                window.location.href = "https://compra-confirmada.my.canva.site";
+            }
             
-            // Fallback para navegadores problemáticos
+            // Fallback extra para navegadores problemáticos
             setTimeout(() => {
                 window.location.replace("https://compra-confirmada.my.canva.site");
-            }, 1500);
+            }, 1000);
         }
 
         // 3. Inicia o processo
         document.addEventListener('DOMContentLoaded', () => {
             loadPixel();
-            setTimeout(redirect, 3000); // 3 segundos para garantir
+            setTimeout(redirect, 3000); // 3 segundos para garantir o Pixel
         });
+
+        // Fallback para navegadores sem JavaScript
+        document.write('<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1345211853386206&ev=Purchase&cd[value]=39.90&cd[currency]=BRL&noscript=1"/></noscript>');
     </script>
 </body>
 </html>
